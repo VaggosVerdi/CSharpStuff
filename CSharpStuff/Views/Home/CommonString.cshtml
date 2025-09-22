@@ -1,0 +1,62 @@
+﻿@model CSharpStuff.Models.LongestSubstringViewModel
+
+@{
+    ViewData["Title"] = "Longest Substring Finder";
+}
+
+<h1 class="text-center mb-5">@ViewData["Title"]</h1>
+
+<div class="container text-center">
+    <p>Use the following form to add two or more words and find the most common substring</p>
+</div>
+
+<div class="container text-center">
+    <p>Press the "Add input box" button to create another field and type the words you wish to compare</p>
+    <p>Press the "Remove input box" to remove any unwanted fields. The base box cannot be removed.</p>
+    <div class="col-12 col-lg-8 mt-5 m-auto">
+        <form method="post" asp-controller="LongestSubstring" asp-action="Index">
+            <div class="row">
+                <div id="formInputs" class="mb-3">
+                    @if (Model?.Strings != null && Model?.Strings.Count > 0) {
+                        foreach (var x in Model.Strings) {
+                            <input type="text" name="Strings" value="@x" style="margin: 5px;"/>
+                        }
+                    } else {
+                        <input type="text" name="Strings" style="margin: 5px;"/>
+                    }
+                </div>
+            </div>
+            <div class="text-center mb-3">
+                <button type="button" class="btn btn-primary" onclick="addInput()">Add Input box</button>
+                <button type="button" class="btn btn-primary" onclick="removeInput()">Remove Input box</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(Model?.Result)) {
+    <div class="container text-center">
+        <p>The longest common substring is: @Model.Result</p>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function addInput() {
+            let container = document.getElementById('formInputs');
+            let input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'Strings';
+            input.style = 'margin: 5px;'
+            container.appendChild(input);
+        }
+
+        function removeInput() {
+            let container = document.getElementById('formInputs');
+            if (container.children.length > 1) {
+                container.removeChild(container.lastElementChild);
+            }
+        }
+    </script>
+}

@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Day-Time Range Overlap Calculator";
+}
+
+<h1 class="text-center mb-5">@ViewData["Title"]</h1>
+
+<div class="container text-center mb-5">
+    <p>Input 2 day time-ranges to find the common-colliding timeframe:</p>
+</div>
+
+<div class="container">
+    <div class="col-12 col-lg-8 mt-5 m-auto">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="trOne">Time Range 1:</label>
+                <input type="text" id="trOne" class="mb-3 w-100" autocomplete="off" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="trTwo">Time Range 2:</label>
+                <input type="text" id="trTwo" class="mb-3 w-100" autocomplete="off" />
+            </div>
+            <div class="text-center mb-3">
+                <button type="button" onclick="calculateOverlap()" class="btn btn-primary">Calculate Overlap</button>
+            </div>
+            <div id="result" class="mt-3 text-center"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script>
+        $(function() {
+            $('#trOne, #trTwo').daterangepicker({
+                timePicker: true,
+                timePicker24Hour: true,
+                locale: {
+                    format: 'YYYY-MM-DD HH:mm'
+                }
+            });
+        });
+        $('#trOne, #trTwo').on('apply.daterangepicker', function(ev, picker) {
+            if (!picker.startDate.isSame(picker.endDate, 'day')) {
+                alert('Please select a single day only.');
+                $(this).val('');
+            }
+        });
+        function calculateOverlap() {
+            var r1 = $('#trOne').val();
+            var r2 = $('#trTwo').val();
+
+            $.ajax({
+                url: '@Url.Action("Time", "TimeCheck")',
+                type: 'POST',
+                data: $.param({ Firstrange: r1, Secondrange: r2}),
+                success: function (response) {
+                    $('#result').text('Overlap: ' + response.result)
+                }
+            });
+        }
+    </script>
+}

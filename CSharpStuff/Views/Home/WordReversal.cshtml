@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Word Reversal";
+}
+
+<h1 class="text-center mb-5">@ViewData["Title"]</h1>
+
+<div class="contianer text-center mb-5">
+    <p>Input a sentence and watch it's order get reversed! Words will remain intact.</p>
+</div>
+
+<div class="container">
+    <label for="rev">Input: </label>
+    <input type="text" id="rev" class="d-block w-100 mb-3" autocomplete="off" />
+
+    <div id="output" class="text-center"></div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#rev').on('input', function () {
+            var inputText = $(this).val();
+
+            if (inputText.length === 0) {
+                $('#output').text('');
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("WordReverse", "WordReversal")',
+                type: 'POST',
+                data: $.param({ Text: inputText }),
+                success: function (reversal) {
+                    $('#output').text('The reversed result is: ' + reversal.reversed);
+                }
+            });
+        });
+    </script>
+}

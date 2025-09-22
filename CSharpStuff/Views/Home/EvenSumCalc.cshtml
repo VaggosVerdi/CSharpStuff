@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Even Number addition";
+}
+
+<h1 class="text-center mb-5">@ViewData["Title"]</h1>
+
+<div class="container text-center mb-5">
+    <p>Input 3 even numbers to be added. Odd numbers will be ignored.</p>
+</div>
+
+<div class="d-flex justify-content-around">
+    <label>First Number: <input type="number" id="num1" /></label>
+    <label>Second Number: <input type="number" id="num2" /></label>
+    <label>Third Number: <input type="number" id="num3" /></label>
+</div>
+
+<div class="text-center h3 mt-5">The sum is: <span id="result">0</span></div>
+
+@section Scripts {
+    <script>
+        function sendNumbers() {
+            var numbers = {
+                num1: parseInt($('#num1').val()) || 0,
+                num2: parseInt($('#num2').val()) || 0,
+                num3: parseInt($('#num3').val()) || 0
+            };
+
+            $.ajax({
+                url: '@Url.Action("EvenSumCalc", "EvenSum")',
+                type: 'POST',
+                data: $.param(numbers),
+                success: function (result) {
+                    $('#result').text(result.sum);
+                }
+            });
+        }
+
+        $('#num1, #num2, #num3').on('input', sendNumbers);
+    </script>
+}
