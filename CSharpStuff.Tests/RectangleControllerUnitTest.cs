@@ -19,8 +19,6 @@ public class RectangleControllerUnitTest
         _rectangleController = new RectangleController();
     }
 
-    public void Dispose() { }
-
     [Fact]
     public void Test_Rectangle_Area()
     {
