@@ -24,20 +24,20 @@ public class RectangleControllerUnitTest
     [Fact]
     public void Test_Rectangle_Area()
     {
-        var model = new RectangleViewModel { Length = 5.0, Width = 3.0, BtnType = "area" };
+        var model = new RectangleViewModel { Length = 2.5, Width = 2.8, BtnType = "area" };
 
         var res = _rectangleController.RectangleAPC(model);
 
-        Assert.Equal(15, model.Result);
+        Assert.Equal(7, model.Result);
     }
 
     [Fact]
     public void Test_Rectangle_Width()
     {
-        var model = new RectangleViewModel { Length = 5.0, Width = 3.0, BtnType = "perimeter" };
+        var model = new RectangleViewModel { Length = 2.5, Width = 2.8, BtnType = "perimeter" };
 
         var res = _rectangleController.RectangleAPC(model);
 
-        Assert.Equal(16, model.Result);
+        Assert.Equal(10.6, model.Result);
     }
 }

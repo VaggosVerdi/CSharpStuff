@@ -46,7 +46,7 @@
                 $.ajax({
                     url: '@Url.Action("RectangleAPC", "Rectangle")',
                     type: 'POST',
-                    data: $.param({ Length: length, Width: width, BtnType: type }),
+                    data: $.param({ Length: length.toString().replace('.', ','), Width: width.toString().replace('.', ','), BtnType: type }),
                     success: function (response) {
                         $('#result')
                             .text('Result: ' + response.result)
